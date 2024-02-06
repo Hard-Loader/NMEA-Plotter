@@ -27,6 +27,42 @@ Fields
 <19>   SNR (C/No) 00-99 dB-Hz, 4th SV (null field if satellite not tracked)
 */
 
+$lookup = array();
+$lookup['02']="USA-180";
+$lookup['03']="USA-258";
+$lookup['04']="USA-289 Vespucci";
+$lookup['05']="USA-206";
+$lookup['06']="USA-251";
+$lookup['07']="USA-201";
+$lookup['08']="USA-262";
+$lookup['09']="USA-256";
+$lookup['10']="USA-265";
+$lookup['11']="USA-319 Neil Armstrong";
+$lookup['12']="USA-192";
+$lookup['13']="USA-132";
+$lookup['14']="USA-309 Sacagawea";
+$lookup['15']="USA-196";
+$lookup['16']="USA-166";
+$lookup['17']="USA-183";
+$lookup['18']="USA-293 Magellan";
+$lookup['19']="USA-177";
+$lookup['20']="USA-150";
+$lookup['21']="USA-168";
+$lookup['22']="USA-151";
+$lookup['23']="USA-304 Matthew Henson";
+$lookup['24']="USA-239";
+$lookup['25']="USA-213";
+$lookup['26']="USA-260";
+$lookup['27']="USA-242";
+$lookup['28']="USA-343 Amelia Earhart";
+$lookup['29']="USA-199";
+$lookup['30']="USA-248";
+$lookup['31']="USA-190";
+$lookup['32']="USA-266";
+
+
+
+
 $data = array();
 $handle = fopen("./20240206.nmea", "r");
 //$handle = fopen("./nmea.log", "r");
@@ -109,7 +145,8 @@ foreach($output as $plot){
  echo "margin-top: ".$plot[0]."%; ";
  echo "margin-left: ".$plot[1]."%; ";
  echo "opacity: ".$plot[2].";'>";
- //echo $plot[3];
+ echo "<p>".$lookup[$plot[3]]."</p>";
+ $lookup[$plot[3]]='';
  echo "</div>\n";
  if($count++ > 400000) break;
 }
