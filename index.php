@@ -64,7 +64,7 @@ $lookup['32']="USA-266";
 
 
 $data = array();
-$handle = fopen("./20240206.nmea", "r");
+$handle = fopen("./test.log", "r");
 //$handle = fopen("./nmea.log", "r");
 if ($handle) {
     while (($line = fgets($handle)) !== false) {
@@ -94,7 +94,8 @@ foreach($data as $point){
     if(!in_array($point[3],$satellites)){
         $satellites[] = $point[3];
     }
-    $current_position = number_format($x, 3, '.', '').number_format($y, 3, '.', '');
+    $current_position = number_format($x, 2, '.', '').number_format($y, 2, '.', '');
+    //$current_position = $x.$y;
     if (!in_array($current_position,$used_position)){
         //echo $current_position."<br>";
         $used_position[] = $current_position;
@@ -114,7 +115,7 @@ $satellites = array_flip($satellites);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>NMEA Plotter</title>
     <style>
-        .plot {position:absolute; width:5px; height:5px;   background:#000; border:0px; border-radius:2.5px; }
+        .plot {position:absolute; width:5px; height:5px; top:-2.5px; left:-2.5px; background:#000; border:0px; border-radius:2.5px; }
         .col0 {background:#ff0000}
         .col1 {background:#00ff00}
         .col2 {background:#0000ff}
@@ -131,11 +132,25 @@ $satellites = array_flip($satellites);
         .col13 {background:#99ff33}
         .col14 {background:#3399ff}
         .col15 {background:#3333ff}
+
+        .col16 {background:#99ff00}
+        .col17 {background:#0099ff}
+        .col18 {background:#ff0099}
+        .col19 {background:#ff9933}
+        .col20 {background:#33ff99}
+        .col21 {background:#9933ff}
+        .col22 {background:#ff3399}
+        .col23 {background:#99ff33}
+        .col24 {background:#3399ff}
+        .col25 {background:#3333ff}
+
+
+        body {background:#ccf; font-family: Verdana, Arial, Helvetica, sans-serif;}
     </style>
   </head>
   <body>
 <h1>NMEA Plotter</h1>
-<div style="position:absolute; border:1px solid #333; margin:auto; width:900px; height:900px">
+<div style="position:relative; border:4px solid #ccc; background:#fff; margin:auto; width:900px; height:900px; border-radius:450px; padding:3px;">
 <?php
 $count=0;
 foreach($output as $plot){
@@ -145,8 +160,11 @@ foreach($output as $plot){
  echo "margin-top: ".$plot[0]."%; ";
  echo "margin-left: ".$plot[1]."%; ";
  echo "opacity: ".$plot[2].";'>";
- echo "<p>".$lookup[$plot[3]]."</p>";
- $lookup[$plot[3]]='';
+ if ($lookup[$plot[3]]){
+   $link = explode(" ",$lookup[$plot[3]]);
+   echo "<p><a target='_blank' href='https://en.wikipedia.org/wiki/".$link[0]."'>".$lookup[$plot[3]]."</a></p>";
+   $lookup[$plot[3]]='';
+ }
  echo "</div>\n";
  if($count++ > 400000) break;
 }
